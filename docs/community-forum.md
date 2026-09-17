@@ -30,11 +30,25 @@ a support cost.
 | --- | --- |
 | ![A Q&A board](../screenshots/qa-board.png) | ![The moderation queue holding a spam post](../screenshots/moderation-queue.png) |
 
+## Your moderators do not need backoffice accounts
+
+The people who know your community are usually volunteers, subject-matter experts and
+customer-facing staff, not administrators. Giving each of them an Umbraco backoffice
+account is both a licensing problem and a security one.
+
+So the forum ships a **full moderation queue in the front end**. Add a member to the
+**Moderators** member group and they can approve, remove and dismiss from inside the
+community itself, at `{forum}/moderation` - same site, same login, same layout, no
+backoffice access of any kind. Administrators still get the unified backoffice queue,
+which covers forum posts and page comments together. Both act on the same data.
+
+![The front-end moderation queue, rendered inside the community layout](../screenshots/moderation-queue-frontend.png)
+
 ## Why this exists
 
 There is no strong, maintained, modern forum package for current Umbraco. The
-best incumbent stops at Umbraco 14; everything else is dead at Umbraco 6–8. A site
-on current Umbraco that wants a community forum has had no good native option - 
+best incumbent stops at Umbraco 14; everything else is dead at Umbraco 6-8. A site
+on current Umbraco that wants a community forum has had no good native option,
 until now.
 
 ## What makes it different
@@ -51,7 +65,45 @@ until now.
 - **SEO / GEO first.** Clean URLs and `DiscussionForumPosting` / `QAPage`
   structured data so threads rank and get cited by answer engines. A forum is a
   long-tail content factory, and it is built as one.
-- **Two-colour instant branding**, dark mode, and "render inside my site's layout".
+- **Two-colour instant branding** and dark mode, so the forum picks up your palette
+  without a theme build.
+
+## How it is built
+
+The forum is deliberately split in two: **structure is Umbraco content, conversation is
+transactional data.**
+
+**Structure and configuration are content nodes.** The installer creates four document
+types - **Forum** (the root), **Forum Category** (a grouping), **Forum Board** (where
+threads live, carrying its own description, SEO fields, access level, new-thread and
+moderation settings) and **Forum Settings** (branding and behaviour). Because they are
+ordinary content, you get real URLs and routing, the publishing workflow, SEO fields and
+per-node permissions for free, you manage them in the editor you already know, and they
+move between environments through Umbraco Deploy or uSync like the rest of your site.
+
+**Conversation lives in the package's own tables** - `fmThread`, `fmPost`, `fmProfile`,
+`fmSubscription`, `fmReport`, `fmReaction`, `fmTag`, `fmThreadTag`, `fmThreadRead`,
+`fmNotification`, `fmPoll`, `fmPollOption`, `fmPollVote` and `fmMessage` - created
+automatically on boot.
+
+That split is the point:
+
+- **A busy forum would destroy a content tree.** Ten thousand posts is a normal year for a
+  modest community. As content nodes that is an unnavigable tree, a bloated published
+  cache, slower publishes and a backoffice nobody wants to open. The best-known existing
+  Umbraco forum package stores every post as a content node, and that is where it runs out
+  of road. This stays flat and indexed however much people talk.
+- **The write patterns are different.** Umbraco's content APIs are built for a few editors
+  making considered, versioned changes; a forum takes public writes on every request.
+- **Your environments stay clean.** Production conversation never syncs back into your
+  development environment, and a deployment can never overwrite what members wrote
+  last night.
+- **The queries are the right shape.** "Latest 25 threads in this board by last reply,
+  excluding held posts, plus this viewer's own pending thread" is one indexed SQL query.
+- **Deleting a member is surgical** - a targeted update across a few tables, not a mass
+  re-publish.
+- **Members are just Umbraco Members.** No parallel user store, no second login, and the
+  Moderators group is an ordinary member group.
 
 ## Features
 
