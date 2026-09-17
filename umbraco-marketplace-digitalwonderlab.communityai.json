@@ -1,0 +1,10 @@
+{
+  "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json",
+  "IsSubPackageOf": "DigitalWonderlab.CommunityForum",
+  "Title": "Community AI Moderation for Umbraco",
+  "Description": "Optional AI-assisted moderation for the Digital Wonderlab community suite. Layers an AI spam/toxicity review on top of the suite's always-on rules engine, covering forum posts and page comments from one setting. Works with Community Forum, Community Comments, or both.\n\nIt runs through the official Umbraco.AI layer, so it is provider-agnostic: you bring your own connection, profile and provider API key, and your keys, governance and AI spend stay inside Umbraco.AI. If the AI errors, has no connection configured, returns unreadable output, or does not answer within 8 seconds, the call is abandoned and the deterministic rules verdict stands. Free to use.",
+  "LicenseTypes": [
+    "Free"
+  ],
+  "PackageType": "Package"
+}

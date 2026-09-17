@@ -1,0 +1,65 @@
+{
+  "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json",
+  "AuthorDetails": {
+    "Name": "Digital Wonderlab",
+    "Description": "As a proud Certified B Corporation®, we are passionate about amplifying the voices and visions of purpose-driven start-ups, SMEs, not-for-profits, and global enterprises.",
+    "Url": "https://digitalwonderlab.com",
+    "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/dwl-marketplace.png",
+    "Contributors": [
+      {
+        "Name": "Kevin Triggle"
+      }
+    ],
+    "SyncContributorsFromRepository": false
+  },
+  "Category": "Editor Tools",
+  "IssueTrackerUrl": "https://github.com/dwlgit/community-suite/issues",
+  "Description": "An Umbraco-native discussion forum for Umbraco 17. Boards are Umbraco content (Forum > Category > Board) with real URLs, SEO fields and publishing; threads, posts, reports and profiles live in the package's own database tables, so conversation volume does not grow your content tree. Server-rendered throughout, with clean slugged URLs, DiscussionForumPosting and QAPage structured data, canonical tags, RSS and an XML sitemap.\n\nModeration ships with it. A deterministic rules engine scores every submission (spam lexicon, tiered profanity, obfuscation, link flooding, contact details) alongside admin-configured word lists, member reporting with auto-hide, a new-member gate, mute and ban. Moderators do not need backoffice accounts: add a member to the Moderators member group and they get a full moderation queue in the front end, inside your own community layout. Administrators get a unified backoffice queue covering forum posts and page comments together.\n\nAlso includes threads and replies, Latest/Newest/Unanswered/Top tabs, pagination, tags, polls, reactions, quoting, mark-as-answered, unread tracking, at-mentions, direct messages, an in-app notification centre, reply notification emails, member profiles, full-text Examine search, members-only boards excluded from every public listing, and self-service accounts with email verification and account deletion. Two-colour branding and dark mode.\n\nIn v1 the Forum node sits at the root of your content tree, and one Forum per installation is the supported shape. The optional DigitalWonderlab.CommunityAi add-on layers Umbraco.AI review on top. Free to use.",
+  "LicenseTypes": [
+    "Free"
+  ],
+  "PackageType": "Package",
+  "Screenshots": [
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/forum-home.png",
+      "Caption": "The forum front-end: boards grouped by category, server-rendered and fully crawlable"
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/moderation-queue-frontend.png",
+      "Caption": "The front-end moderation queue: members of the Moderators group approve, remove and dismiss from inside the community, with no backoffice account"
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/thread.png",
+      "Caption": "A thread with replies, avatars and tags"
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/poll.png",
+      "Caption": "Polls on a thread: one vote per member with live results"
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/qa-board.png",
+      "Caption": "A Q&A board with Latest / Newest / Unanswered / Top sorting"
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/moderation-queue.png",
+      "Caption": "The unified Community moderation queue: approve, remove or dismiss forum posts and page comments in one list"
+    }
+  ],
+  "RelatedPackages": [
+    {
+      "PackageId": "DigitalWonderlab.CommunityComments",
+      "Description": "WordPress-style page comments moderated from the same Community queue",
+      "GroupTitle": "The community suite"
+    }
+  ],
+  "Tags": [
+    "Forum",
+    "Community",
+    "Discussion",
+    "Moderation",
+    "SEO",
+    "Members"
+  ],
+  "Title": "Community Forum for Umbraco",
+  "VersionDependencyMode": "SemVer"
+}

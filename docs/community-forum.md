@@ -6,9 +6,9 @@ thing lives inside a standard Umbraco site with no separate app to run.
 
 Boards are first-class Umbraco content; threads, posts, reports and profiles live
 in the package's own transactional tables. The front-end re-skins from two brand
-colours, is server-rendered (so it is fully crawlable), and ships with the SEO and
-structured-data markup that turns a forum into an organic-growth asset rather than
-a support cost.
+colours, is server-rendered (so it is fully crawlable), and ships the SEO and
+structured-data markup that lets search and answer engines read a thread as a
+discussion.
 
 > **Free to use.** The whole forum is free - see the licence below. Every install
 > moderates with an always-on rules engine; **optional AI-assisted spam/toxicity
@@ -46,25 +46,20 @@ which covers forum posts and page comments together. Both act on the same data.
 
 ## Why this exists
 
-There is no strong, maintained, modern forum package for current Umbraco. The
-best incumbent stops at Umbraco 14; everything else is dead at Umbraco 6-8. A site
-on current Umbraco that wants a community forum has had no good native option,
-until now.
+We wanted a forum for Umbraco 17 that was server-rendered, moderated out of the box,
+and that did not put every post in the content tree. This is what we built for that.
 
-## What makes it different
+## What it gives you
 
-- **Runs on current Umbraco (17 / .NET 10).** The feature-competitive incumbents
-  do not.
+- **Runs on current Umbraco (17 LTS / .NET 10).**
 - **AI-assisted moderation, built on the official Umbraco.AI.** An optional add-on
   layers AI spam/toxicity review on top of the always-on rules engine - provider-
   agnostic (you bring your own Umbraco.AI connection and keys), covering forum posts
-  and page comments with one toggle. No incumbent forum package integrates with
-  Umbraco.AI like this.
-- **Safe by design.** Every post is sanitised on save; a built-in moderation rules
-  engine and a real moderation queue are on from day one - with or without the AI add-on.
-- **SEO / GEO first.** Clean URLs and `DiscussionForumPosting` / `QAPage`
-  structured data so threads rank and get cited by answer engines. A forum is a
-  long-tail content factory, and it is built as one.
+  and page comments with one toggle.
+- **Moderated from day one.** Every post is sanitised on save, and a rules engine
+  plus a real moderation queue are on with or without the AI add-on.
+- **SEO markup built in.** Clean URLs and `DiscussionForumPosting` / `QAPage`
+  structured data, so a thread is machine-readable as a discussion.
 - **Two-colour instant branding** and dark mode, so the forum picks up your palette
   without a theme build.
 
@@ -74,9 +69,11 @@ The forum is deliberately split in two: **structure is Umbraco content, conversa
 transactional data.**
 
 **Structure and configuration are content nodes.** The installer creates four document
-types - **Forum** (the root), **Forum Category** (a grouping), **Forum Board** (where
-threads live, carrying its own description, SEO fields, access level, new-thread and
-moderation settings) and **Forum Settings** (branding and behaviour). Because they are
+types - **Forum** (the root of the community, at the root of the content tree),
+**Forum Category** (a grouping), **Forum Board** (where threads live, carrying its own
+description, SEO fields, access level, new-thread and moderation settings) and
+**Forum Settings** (logo and layout inheritance for this forum; suite-wide behaviour
+lives in the backoffice under Community > Settings). Because they are
 ordinary content, you get real URLs and routing, the publishing workflow, SEO fields and
 per-node permissions for free, you manage them in the editor you already know, and they
 move between environments through Umbraco Deploy or uSync like the rest of your site.
@@ -95,9 +92,9 @@ That split is the point:
   of road. This stays flat and indexed however much people talk.
 - **The write patterns are different.** Umbraco's content APIs are built for a few editors
   making considered, versioned changes; a forum takes public writes on every request.
-- **Your environments stay clean.** Production conversation never syncs back into your
-  development environment, and a deployment can never overwrite what members wrote
-  last night.
+- **Your environments stay clean.** Production conversation does not sync back into your
+  development environment, and a content deployment does not carry members' posts
+  with it.
 - **The queries are the right shape.** "Latest 25 threads in this board by last reply,
   excluding held posts, plus this viewer's own pending thread" is one indexed SQL query.
 - **Deleting a member is surgical** - a targeted update across a few tables, not a mass
@@ -126,8 +123,8 @@ That split is the point:
 
 - **WYSIWYG composer** - bold, italic, quote, lists, links, images by URL, emoji,
   and YouTube / Vimeo embeds.
-- **Safe posts** - every post sanitised on save against an allow-list, so user
-  content can never inject scripts into your site.
+- **Safe posts** - every post is reduced on save to an allow-list of safe tags and
+  attributes before it is stored.
 - **Reactions, quoting and editing** - like a post, quote a reply, edit or delete
   your own posts.
 - **Mark as answered** - Q&A-style boards can flag the accepted answer, and
@@ -135,8 +132,10 @@ That split is the point:
 - **Unread tracking** - new threads and replies are badged per member, with
   "mark all read".
 - **@mentions** - mention a member and they get notified.
-- **Direct messages** - member-to-member private messages with an inbox, moderated
-  by the same engine and protected by a flood guard.
+- **Direct messages** - member-to-member private messages with an inbox. Senders
+  need a verified email and an unrestricted profile (banned and muted members cannot
+  send), and a flood guard caps the rate. DMs are private, so they are **not** put
+  through the moderation rules engine, and v1 has no recipient-side block or report.
 - **Notifications** - an in-app notification centre and bell (replies, mentions,
   messages, and a notice when a held post of yours is approved), plus optional
   **reply notification emails** (uses your Umbraco SMTP; skips gracefully if not
@@ -152,9 +151,12 @@ That split is the point:
   and a My Account page. **Email verification gates posting.** Provided by the
   shared Core, so a neutral `/community/sign-in` page works even on a comments-only
   install.
-- **GDPR account deletion** - a member can delete their account and personal data
-  (profile, messages, notifications, subscriptions) while their posts stay in place,
-  permanently anonymised to "[deleted user]" so conversations are not broken.
+- **Account deletion** - a member deletes their own account and the Umbraco member
+  record goes. Their threads and posts stay in place, stripped of identifying data and
+  shown as "[deleted user]", so conversations are not broken; their profile details,
+  messages, notifications, subscriptions, reactions, poll votes and read state are
+  deleted. If Community Comments is installed, their comments are erased in the same
+  pass.
 
 ### Moderation
 
@@ -171,7 +173,8 @@ That split is the point:
 - **Author visibility** - authors can see their own held posts and threads (clearly
   badged "Pending review") while they stay hidden from everyone else.
 - **Optional AI review** - add `DigitalWonderlab.CommunityAi` to layer Umbraco.AI
-  spam/toxicity review on top. An AI outage never blocks posting.
+  spam/toxicity review on top. If it errors or does not answer within 8 seconds, the
+  rules verdict stands.
 
 ### SEO and setup
 
@@ -183,8 +186,12 @@ That split is the point:
   guided Setup.
 - **One-click installer** - the Setup dashboard creates the document types,
   templates, member type and a starter board. Idempotent and non-destructive.
-- **Runs behind any domain** - works at the site root or under a relative domain
-  (for example `/community`) with no configuration.
+- **Runs behind any domain** - works at your site root or under a culture/domain
+  binding. The Forum node itself must sit at the root of the content tree in v1: its
+  virtual pages (`/search`, `/account`, `/tag`, `/member`, `/messages`,
+  `/notifications`, `/moderation`) are resolved from a root Forum and will not resolve
+  if it is nested under another page. One Forum per installation is the supported
+  shape.
 
 ### Add page comments to the rest of your site
 
@@ -237,9 +244,11 @@ A few settings live in `appsettings.json` under `Community:Auth`:
 }
 ```
 
-- `BaseUrl` (recommended in production): the canonical site origin used when building
-  links that are emailed to members (password reset, verification, reply notifications).
-  When unset, links are built from the incoming request's host.
+- `BaseUrl` (**required in production** unless ASP.NET Core `AllowedHosts` is set to a
+  real allow-list): the canonical site origin used when building links that are emailed
+  to members. Password reset and email verification carry a security token, so those
+  emails are **not sent** unless the origin can be trusted, and the reason is logged.
+  Reply notification emails carry no token and fall back to the request host.
 - `ResetPageUrl`: where the password-reset email link lands. Defaults to the built-in
   `/community/sign-in` page; point it at the forum so resets land on your account page.
 
