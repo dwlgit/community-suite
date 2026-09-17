@@ -6,6 +6,27 @@ A fresh review before public listing found a set of correctness, privacy and pac
 This release fixes all of them. Nothing here changes how the packages are used, but two items
 change behaviour on a misconfigured production site: read **Email links** below.
 
+Fresh install (found by installing the release archives on clean sites):
+- **A fresh NuGet install rendered a bare heading instead of the forum.** The packages deploy their
+  Razor views next to the application binaries, but the installer only looked for them under the site's
+  content root, which on a `dotnet run` site is the project folder. Finding nothing, it installed
+  placeholder templates, and Umbraco then wrote those placeholders to disk as the real views. The
+  installer now also looks where the package actually put its views. This affected every published
+  version; it went unnoticed because our own test sites reference the projects directly and already
+  have the views.
+- **Razor can now find the .cshtml files the packages ship.** The application's own directory is
+  registered as an additional Razor file provider, so shipped layouts and partials resolve whether the
+  site is run from source or from a publish output. The content root is still searched first, so a site
+  that has customised a shipped view keeps its own copy.
+- **The community layout could not be installed as a template at all.** When Umbraco installs a
+  template it reads the layout assignment in the view's `@{ }` block as a master template alias. The
+  host-layout work in 1.3.0 assigned that property from a resolver, which Umbraco read as an alias of
+  that literal name and rejected with MasterTemplateNotFound. Written as a conditional now, which the
+  parser does not misread.
+- `tools/check-docs-sync.sh` and `tools/check-shipped-views.py` run these checks before packing, so
+  neither problem can reach a release again unnoticed.
+- The delete-account wording on the My Account page now describes erasure across both packages.
+
 Moderation:
 - **A moderation action is now ignored if the item has already been resolved.** Actioning one report
   closes every open report on that post, so a moderator working from a queue page that had been open
