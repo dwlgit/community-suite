@@ -12,6 +12,8 @@ unavailable.
 This repository is the public home for the suite: documentation, screenshots, the changelog
 and the issue tracker. The packages themselves are installed from NuGet.
 
+![The forum front-end: boards grouped by category, server-rendered and fully crawlable](screenshots/forum-home.png)
+
 ## Your moderators do not need backoffice accounts
 
 Most community software assumes whoever moderates is also an administrator. That is rarely
@@ -121,15 +123,81 @@ You install **Forum** and/or **Comments**; **Core** comes with them automaticall
 - **Guided one-click installer**: creates document types, templates, the member type and a starter board. Idempotent and non-destructive
 - **Backoffice Community section** with Overview, the unified moderation queue and suite-wide Settings
 - **Conversation data lives in transactional tables**, not as content nodes, so a busy forum does not bloat your content tree
-- **Two-colour instant branding**, dark mode, and the option to render inside your own site layout
+- **Two-colour instant branding** and dark mode, so the community picks up your palette without a theme build
 - **Runs at the site root or behind a relative domain** (for example `/community`) with no configuration
 - **Umbraco Cloud compatible** - see the [Cloud setup notes](docs/community-forum.md#umbraco-cloud)
 
+## How it is built
+
+The suite is deliberately split in two. **Structure is Umbraco content. Conversation is
+transactional data.**
+
+### Structure and configuration are content nodes
+
+The installer creates four document types, and they behave like any other content:
+
+| Document type | What it is |
+| --- | --- |
+| **Forum** | The root of a community. Sits anywhere in your content tree. |
+| **Forum Category** | A grouping heading on the forum home. |
+| **Forum Board** | Where threads live. Carries its own description, SEO fields, access level (public or members-only), whether new threads are allowed, and its moderation mode. |
+| **Forum Settings** | Branding (two colours, logo) and behaviour (AI moderation on/off, which AI profile, notifications on/off). |
+
+Because they are content nodes, you get the whole of Umbraco for free: real URLs and
+routing, the publishing workflow, SEO fields, per-node permissions, and the editors you
+already know. Adding a board is creating a page. Rebranding the community is editing a
+content node. And because they are schema plus content, they move between environments
+through Umbraco Deploy or uSync exactly like the rest of your site.
+
+### Conversations are transactional database tables
+
+Everything members generate is written to the package's own tables, not the content tree:
+
+- **Forum:** `fmThread`, `fmPost`, `fmProfile`, `fmSubscription`, `fmReport`, `fmReaction`,
+  `fmTag`, `fmThreadTag`, `fmThreadRead`, `fmNotification`, `fmPoll`, `fmPollOption`,
+  `fmPollVote`, `fmMessage`
+- **Comments:** `dwlComment`, `dwlCommentReport`
+
+They are created automatically on boot and need no setup.
+
+### Why this matters
+
+**A busy forum would destroy a content tree.** This is the single biggest reason. Ten
+thousand posts is a normal year for a modest community, and as content nodes that means ten
+thousand nodes: an unnavigable tree for your editors, a bloated published cache, slower
+publishes and startup, and a backoffice nobody wants to open. The best-known existing
+Umbraco forum package stores every post as a content node, and that is exactly where it
+runs out of road. Ours stays flat and indexed no matter how much people talk.
+
+**Write patterns are completely different.** Umbraco's content APIs are built for a handful
+of editors making considered, versioned changes. A forum takes writes from the public on
+every request, constantly. Routing those through content publishing means cache rebuilds,
+notifications and Deploy artifacts on every reply.
+
+**Your environments stay clean.** Content flows between Umbraco environments. Member
+conversations should not. Because threads and posts live in their own tables, production
+discussion never syncs back into your development environment, and a deployment can never
+overwrite what your members wrote last night.
+
+**The queries are the right shape.** "The latest 25 threads in this board, ordered by last
+reply, excluding held posts, but including this viewer's own pending thread" is one indexed
+SQL query. Over content nodes it is a load-everything-and-filter-in-memory problem.
+
+**Deleting a member is surgical.** GDPR anonymisation is a targeted update across a few
+tables, not a mass re-publish of thousands of nodes.
+
+**And members are just Umbraco Members.** No parallel user store, no second login. Your
+existing members can post on day one, the Moderators group is an ordinary member group,
+and any members-only logic you already have keeps working.
+
+The result: Umbraco-native where Umbraco is strong, and a proper transactional store where
+Umbraco was never meant to go.
+
 ## More screenshots
 
-| Forum front-end | Page comments |
+| A board listing | Page comments |
 | --- | --- |
-| ![The forum front-end](screenshots/forum-home.png) | ![Comments on an Umbraco page](screenshots/comments-page.png) |
+| ![A board: threads with avatars, tags and reply counts](screenshots/board.png) | ![Comments on an Umbraco page](screenshots/comments-page.png) |
 
 | A thread | The backoffice queue |
 | --- | --- |
