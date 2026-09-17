@@ -13,8 +13,12 @@ Umbraco.AI.
 
 **Without this add-on, the suite still moderates** with its always-on
 deterministic rules engine (spam, profanity, links, obfuscation, and your own
-blocked/spam/promotional word lists). The add-on only adds the AI layer on top;
-if the AI is unavailable, posting is never blocked - the rules verdict stands.
+blocked/spam/promotional word lists). The add-on only adds the AI layer on top. If
+the AI errors, has no connection configured, returns something unreadable, or does
+not answer within 8 seconds, the call is abandoned and the rules verdict stands.
+
+The add-on works with either feature package on its own: Community Forum alone,
+Community Comments alone, or both.
 
 ## Requirements
 

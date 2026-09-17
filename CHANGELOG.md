@@ -1,5 +1,127 @@
 # Changelog
 
+## 1.3.1 - pre-release audit fixes
+
+A fresh review before public listing found a set of correctness, privacy and packaging problems.
+This release fixes all of them. Nothing here changes how the packages are used, but two items
+change behaviour on a misconfigured production site: read **Email links** below.
+
+Moderation:
+- **A moderation action is now ignored if the item has already been resolved.** Actioning one report
+  closes every open report on that post, so a moderator working from a queue page that had been open
+  for a while could replay an action and, for example, republish a post that was removed afterwards.
+  Repeat actions on a resolved report or a comment that is no longer in the queue are now no-ops.
+- **A rejected edit can no longer retag a thread.** Tags were written before the moderation verdict,
+  so an edit that was blocked as spam still applied its tags. Tags are now written only when the edit
+  is accepted or staged for review.
+- **Comment reports are deduplicated, rate limited and clamped.** One open report per member per
+  comment, at most five reports a minute per member, reports only against visible comments, and the
+  reason is clamped to the column width (a long reason previously risked a truncation error on SQL
+  Server). Forum reporting already did all of this.
+
+Direct messages:
+- **Banned and muted members can no longer send direct messages.** DMs were the one posting route
+  that ignored profile status.
+- The docs previously implied DMs were moderated and reportable. They are not: DMs are private and
+  deliberately skip the public rules engine, and there is no recipient-side block or report in v1.
+  The package README, docs and release notes now say so.
+
+Privacy and accounts:
+- **Account deletion now covers every installed package.** Deleting an account erased the member's
+  forum data only, so on a site running page comments their comments stayed attributed to them. A new
+  shared erasure service runs every installed package's erasure source in one pass. Comments are kept
+  readable but stripped of identifying data and shown as "[deleted user]", matching the forum.
+- A site running page comments **without** the forum can call `ICommunityErasureService` from its own
+  delete-account flow to get the same result.
+- **The stored comment IP hash is no longer written.** Nothing ever read it, and a hash of an address
+  space small enough to enumerate is not anonymisation. The column stays (no migration needed) and any
+  existing values are cleared when a member is erased.
+
+Email links:
+- **Password reset and email verification links are no longer built from an unvalidated `Host`
+  header.** On a host that accepts arbitrary Host values, an attacker could previously have a victim
+  emailed a working reset link pointing at a host they control. These emails are now sent only when the
+  origin can be trusted: `Community:Auth:BaseUrl` is set, or ASP.NET Core `AllowedHosts` is a real
+  allow-list, or the site is running in Development.
+- **Action required on production if you set neither.** Password reset and verification will not send,
+  and the reason is logged. Set `Community:Auth:BaseUrl` to your public site URL.
+- Reply notification emails carry no token and still fall back to the request host.
+
+Forum placement:
+- **Members-only board titles are kept out of public listings even when the Forum node is not at the
+  content root.** The lookup that identifies gated boards only searched content roots, so a nested
+  Forum produced an empty list and private thread titles could surface in public recent activity,
+  search and tag listings.
+- **The installer adopts an existing Forum wherever it sits** instead of creating a second one at the
+  root, and warns in the log when the Forum is nested.
+- To be explicit, and now documented as such: **v1 supports one Forum, at the root of the content
+  tree.** Its virtual pages (`/search`, `/account`, `/tag`, `/member`, `/messages`, `/notifications`,
+  `/moderation`) resolve from a root Forum and will not resolve from a nested one.
+
+AI moderation:
+- **AI moderation calls now time out after 8 seconds** and fall back to the deterministic rules
+  verdict. There was no timeout, so a stalled provider could hold a member's submit request open
+  indefinitely. "Posting is never blocked if the AI is unavailable" is now accurate rather than
+  aspirational, and the docs state the timeout.
+- The add-on works with Community Forum, Community Comments, or both. The docs previously read as
+  though it needed the forum.
+
+Packaging and documentation:
+- **`PackageProjectUrl` now points at the public project site**
+  (https://dwlgit.github.io/community-suite/), which serves the Umbraco Marketplace metadata for each
+  package. It previously pointed at the private source repository, so the Marketplace had no public
+  fetch path for the manifests and anyone following the link from NuGet hit a private repository.
+- `RepositoryUrl` has been removed rather than repointed: the source is not published, and pointing it
+  at the documentation site would imply otherwise.
+- **NuGet release notes were still describing 1.1.0** on the Forum and Comments packages, including a
+  claim that direct messages run through moderation. Rewritten for this release.
+- Marketplace descriptions rewritten: shorter, factual, and with the v1 limitations stated. Removed
+  unsupported comparisons with other packages, search-ranking claims, cost-per-post estimates and
+  categorical "never" claims that the code did not support.
+- The public changelog had stopped at 1.2.2 and is now in step with the packages.
+- Every README and doc now carries an explicit **Limitations** section: root-only forum placement,
+  single-culture comments, unmoderated DMs, forum-only front-end queue, per-process settings cache,
+  and the places that are not paged yet.
+- Removed the page-comments screenshot whose sample comments read like product endorsements.
+
+## 1.3.0 - render inside your own site layout, plus composer and toolbar fixes
+
+Layout:
+- **The community can now render inside one of your site's master templates.** Turn on
+  "Inherit Host Layout" in Forum Settings and pick the master from the new **Host Master Template**
+  picker, which lists the templates on your site. The community keeps its own masthead, navigation
+  and sidebar; your header, footer and chrome wrap around it.
+- Per community, so a multi-site install can point each one at its own site's master.
+- Safe by default: if inheritance is off, no template is chosen, the chosen template has been renamed
+  or deleted, or one of the community's own templates is picked, the standalone layout is used instead
+  of throwing a "layout not found" error.
+- When you inherit, your master template owns `<head>`. Render
+  `~/Views/Partials/Community/_CommunityHead.cshtml` inside it to keep the forum's title, canonical,
+  meta description and Open Graph tags. JSON-LD structured data is emitted either way.
+
+Composer and posting:
+- Members who have not yet verified their email address no longer see a working composer. Previously
+  the composer rendered and accepted a draft, then the post was rejected on submit. They now get a
+  clear prompt to verify instead, on both the board and the thread page.
+- The composer toolbar uses inline SVG icons instead of emoji and punctuation glyphs, so the buttons
+  match each other, follow your brand colour and render identically on every platform.
+
+Front end:
+- The "Start a thread" shortcut is no longer shown to signed-out visitors, who cannot use it.
+
+SEO:
+- **Fixed: JSON-LD structured data was not being recognised.** The `<script>` tag rendered, but
+  Razor was encoding the `+` in its type attribute, so it was served as
+  `application/ld&#x2B;json` and search and answer engines ignored it. `DiscussionForumPosting`
+  and `QAPage` markup now ships with the correct media type. Present since the structured data
+  was introduced.
+
+Housekeeping:
+- The backoffice package manifests now report the correct package version (they had drifted two
+  releases behind).
+- READMEs and Marketplace listings describe the current feature set, including the front-end
+  moderation queue, GDPR account deletion, direct messages, notifications, mentions, tags and polls.
+
 ## 1.2.2 - Front-end moderation queue uses the community layout
 
 - The front-end moderation queue is now rendered inside the full community layout (masthead, brand,

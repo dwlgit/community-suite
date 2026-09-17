@@ -4,10 +4,10 @@
 backoffice **Community** section and one unified moderation queue. Install just the forum,
 just page comments, or both - everything is moderated from the same place.
 
-Moderation is first-class here: an always-on rules engine ships with every install, and
-**optional AI-assisted spam/toxicity review plugs straight into the official Umbraco.AI** -
-one toggle covers forum posts and page comments, and posting is never blocked if the AI is
-unavailable.
+Every install ships a deterministic rules engine that runs on every submission. An optional
+add-on layers AI review on top via the official Umbraco.AI, covering forum posts and page
+comments from one setting. If the AI errors or does not answer within 8 seconds, the rules
+verdict stands and the submission continues on that basis.
 
 This repository is the public home for the suite: documentation, screenshots, the changelog
 and the issue tracker. The packages themselves are installed from NuGet.
@@ -40,7 +40,10 @@ comments together. Both act on the same data, so the two never disagree.
 | **Community AI Moderation** | [`DigitalWonderlab.CommunityAi`](https://www.nuget.org/packages/DigitalWonderlab.CommunityAi) | Optional AI spam/toxicity review via Umbraco.AI. → [docs](docs/community-ai.md) |
 
 You install **Forum** and/or **Comments**; **Core** comes with them automatically; add
-**AI Moderation** when you want it. Nothing else to wire up.
+**AI Moderation** when you want it. Beyond running the installer, a production site needs a
+canonical base URL set (see [Requirements](#requirements)); AI moderation needs Umbraco.AI
+configured, and a comments-only site needs a way for members to register, which the forum
+would otherwise provide.
 
 ## Features
 
@@ -50,7 +53,7 @@ You install **Forum** and/or **Comments**; **Core** comes with them automaticall
 - **Unified backoffice queue** in the Community section: forum posts and page comments in one list
 - **Always-on rules engine** scoring every post 0-100: spam lexicon, tiered profanity, leetspeak obfuscation, link flooding and contact details
 - **Admin-configured word lists**: blocked words, spam phrases, promotional phrases and an overall sensitivity level
-- **Optional AI review** layered on top via the official Umbraco.AI - provider-agnostic, you bring your own connection. If the AI errors or is unavailable, posting is never blocked
+- **Optional AI review** layered on top via the official Umbraco.AI - provider-agnostic, you bring your own connection. If the AI errors, is unavailable or does not answer within 8 seconds, the rules verdict stands
 - **Member reporting** with configurable auto-hide once a post passes a report threshold
 - **Moderator actions**: approve, remove, dismiss, lock, pin, delete, and mute or ban a member
 - **New-member gate**: hold first posts from new accounts until they have a short track record
@@ -78,7 +81,7 @@ You install **Forum** and/or **Comments**; **Core** comes with them automaticall
 
 - **WYSIWYG composer**: bold, italic, quote, lists, links, images by URL and emoji
 - **YouTube and Vimeo embeds**
-- **Allow-list HTML sanitisation** on save, so member content can never inject scripts into your site
+- **Allow-list HTML sanitisation** on save: member markup is reduced to a fixed set of safe tags and attributes before it is stored
 - **CSRF protection** on every posting form
 
 ### Engagement
@@ -86,18 +89,18 @@ You install **Forum** and/or **Comments**; **Core** comes with them automaticall
 - **Thread subscriptions** with reply notification emails via your Umbraco SMTP (skips gracefully when not configured)
 - **In-app notification centre and bell**: replies, mentions, messages, and a notice when a held post of yours is approved
 - **@mentions** that notify the mentioned member
-- **Direct messages** between members with an inbox, moderated by the same engine and protected by a flood guard
+- **Direct messages** between members with an inbox. Senders must have a verified email and an unrestricted profile (banned and muted members cannot send), and a flood guard caps the rate. DMs are private, so they are **not** passed through the moderation rules engine, and v1 has no recipient-side block or report: see [Limitations](#limitations)
 - **Member profiles**: display name, signature, post count, avatar and "my threads"
 - **Full-text search** backed by a dedicated Examine/Lucene index, updated incrementally as members post, with the board shown on each result
 
 ### Members and accounts
 
 - **Self-service accounts**: register, sign in, sign out, forgot password and reset
-- **Email verification gates posting**
+- **Email verification gates posting** in the forum (page comments require a signed-in member, not a verified one)
 - **A neutral `/community/sign-in` page** that works even on a comments-only install, and round-trips a same-site `returnUrl`
 - **Point it at your own login page** instead, with one configuration setting
-- **GDPR account deletion**: a member deletes their account and personal data while their posts stay in place, permanently anonymised to "[deleted user]" so conversations are not broken
-- **Throttling** on register, forgot-password and resend, and emailed links built from configured base URLs rather than a spoofable host header
+- **Account deletion covering every installed package**: a member deletes their own account and the Umbraco member record goes. Their forum threads and posts, and their page comments, stay in place so conversations are not broken, stripped of anything identifying and shown as "[deleted user]". Their subscriptions, notifications, reactions, poll votes, read state and direct messages are deleted outright. A site running comments without the forum can call the same erasure service from its own account flow
+- **Throttling** on register, forgot-password and resend. Links that carry a security token (password reset, email verification) are built only from a canonical base URL, or from a host that ASP.NET Core host filtering has already validated. If neither is available the email is not sent and the reason is logged, rather than emailing a link built from a spoofable `Host` header
 - Forum members are **standard Umbraco Members** - no parallel user system
 
 ### Page comments
@@ -112,7 +115,7 @@ You install **Forum** and/or **Comments**; **Core** comes with them automaticall
 ### SEO and discoverability
 
 - **Clean slugged URLs** for threads, members and tags
-- **`DiscussionForumPosting` and `QAPage` structured data** so threads rank and get cited by answer engines
+- **`DiscussionForumPosting` and `QAPage` structured data** on threads, so search and answer engines can read the discussion as a discussion
 - **Canonical tags**, `rel=prev/next` on paginated lists, Open Graph and Twitter cards
 - **RSS feed** and **XML sitemap**
 - Server-rendered throughout, so everything is crawlable
@@ -124,7 +127,7 @@ You install **Forum** and/or **Comments**; **Core** comes with them automaticall
 - **Backoffice Community section** with Overview, the unified moderation queue and suite-wide Settings
 - **Conversation data lives in transactional tables**, not as content nodes, so a busy forum does not bloat your content tree
 - **Two-colour instant branding** and dark mode, so the community picks up your palette without a theme build
-- **Runs at the site root or behind a relative domain** (for example `/community`) with no configuration
+- **Runs at your site root or behind a culture/domain binding**. In v1 the Forum node itself must sit at the root of the content tree: the `/search`, `/account`, `/tag`, `/member`, `/messages`, `/notifications` and `/moderation` pages are resolved from a root Forum, and will not resolve if it is nested under another page
 - **Umbraco Cloud compatible** - see the [Cloud setup notes](docs/community-forum.md#umbraco-cloud)
 
 ## How it is built
@@ -138,10 +141,10 @@ The installer creates four document types, and they behave like any other conten
 
 | Document type | What it is |
 | --- | --- |
-| **Forum** | The root of a community. Sits anywhere in your content tree. |
+| **Forum** | The root of a community. In v1 this node sits at the root of your content tree. |
 | **Forum Category** | A grouping heading on the forum home. |
 | **Forum Board** | Where threads live. Carries its own description, SEO fields, access level (public or members-only), whether new threads are allowed, and its moderation mode. |
-| **Forum Settings** | Branding (two colours, logo) and behaviour (AI moderation on/off, which AI profile, notifications on/off). |
+| **Forum Settings** | Per-forum presentation: logo, and whether to inherit a host master template. Suite-wide behaviour (colours, AI moderation on/off, which AI profile, notification emails on/off, word lists) lives in the backoffice under **Community > Settings**, not here. |
 
 Because they are content nodes, you get the whole of Umbraco for free: real URLs and
 routing, the publishing workflow, SEO fields, per-node permissions, and the editors you
@@ -165,9 +168,9 @@ They are created automatically on boot and need no setup.
 **A busy forum would destroy a content tree.** This is the single biggest reason. Ten
 thousand posts is a normal year for a modest community, and as content nodes that means ten
 thousand nodes: an unnavigable tree for your editors, a bloated published cache, slower
-publishes and startup, and a backoffice nobody wants to open. The best-known existing
-Umbraco forum package stores every post as a content node, and that is exactly where it
-runs out of road. Ours stays flat and indexed no matter how much people talk.
+publishes and startup, and a backoffice nobody wants to open. Storing conversation in its
+own indexed tables keeps the content tree the size of your site's structure rather than the
+size of its traffic.
 
 **Write patterns are completely different.** Umbraco's content APIs are built for a handful
 of editors making considered, versioned changes. A forum takes writes from the public on
@@ -176,15 +179,15 @@ notifications and Deploy artifacts on every reply.
 
 **Your environments stay clean.** Content flows between Umbraco environments. Member
 conversations should not. Because threads and posts live in their own tables, production
-discussion never syncs back into your development environment, and a deployment can never
-overwrite what your members wrote last night.
+discussion does not sync back into your development environment, and a content deployment
+does not carry your members' posts with it.
 
 **The queries are the right shape.** "The latest 25 threads in this board, ordered by last
 reply, excluding held posts, but including this viewer's own pending thread" is one indexed
 SQL query. Over content nodes it is a load-everything-and-filter-in-memory problem.
 
-**Deleting a member is surgical.** GDPR anonymisation is a targeted update across a few
-tables, not a mass re-publish of thousands of nodes.
+**Deleting a member is surgical.** Erasure is a targeted update across a few tables, not a
+mass re-publish of thousands of nodes.
 
 **And members are just Umbraco Members.** No parallel user store, no second login. Your
 existing members can post on day one, the Moderators group is an ordinary member group,
@@ -195,20 +198,39 @@ Umbraco was never meant to go.
 
 ## More screenshots
 
-| A board listing | Page comments |
+| A board listing | A thread |
 | --- | --- |
-| ![A board: threads with avatars, tags and reply counts](screenshots/board.png) | ![Comments on an Umbraco page](screenshots/comments-page.png) |
+| ![A board: threads with avatars, tags and reply counts](screenshots/board.png) | ![A thread with replies](screenshots/thread.png) |
 
-| A thread | The backoffice queue |
-| --- | --- |
-| ![A thread with replies](screenshots/thread.png) | ![The unified backoffice moderation queue](screenshots/moderation-queue.png) |
+| The unified backoffice moderation queue |
+| --- |
+| ![The unified backoffice moderation queue](screenshots/moderation-queue.png) |
 
 ## Why this exists
 
-There is no strong, maintained, modern community stack for current Umbraco. The best forum
-incumbent stops at Umbraco 14; everything else is dead at Umbraco 6-8. This suite runs on
-**current Umbraco (17 LTS / .NET 10)**, is SEO/GEO-first, and treats moderation as a
-first-class, always-on concern rather than a bolt-on.
+We wanted a forum and page comments for Umbraco 17 that were server-rendered, moderated out
+of the box, and that did not put every post in the content tree. This suite is what we built
+for that, and it is maintained against current Umbraco (17 LTS / .NET 10).
+
+## Limitations
+
+Worth knowing before you install. These are v1 boundaries, not defects:
+
+- **The Forum node must be at the root of the content tree.** Its virtual pages do not
+  resolve from a nested Forum. One Forum per installation is the supported shape.
+- **Page comments are single-culture.** A comment is stored without a culture, so every
+  language variant of a page shares one conversation.
+- **Direct messages are not moderated** and have no recipient-side block or report in v1.
+  Banned and muted members cannot send, and a flood guard caps the rate.
+- **The front-end moderation queue covers forum posts only.** Page comments are moderated
+  inline on the page by members of the Moderators group, or from the backoffice queue, which
+  covers both.
+- **Suite settings are cached per process** and a change is picked up by the server that
+  made it. On a load-balanced or multi-instance setup the other instances keep the previous
+  values until they recycle.
+- **Not everything is paged yet.** A page's comments and a member's inbox are loaded in
+  full. That is comfortable at the scale a single page's discussion reaches, and is on the
+  list to page before it is not.
 
 ## Requirements
 
@@ -217,6 +239,10 @@ first-class, always-on concern rather than a bolt-on.
 - Umbraco CMS **17 LTS** (17.6.2+), **.NET 10**
 - Standard Umbraco Members enabled
 - SMTP only if you want notification emails
+- On production, either `Community:Auth:BaseUrl` set to your site's public URL (for example
+  `https://example.com`), or ASP.NET Core `AllowedHosts` set to a real allow-list. Password
+  reset and email verification will not send without one of the two, because the link they
+  carry would otherwise be built from an unvalidated `Host` header
 
 **Only if you want AI-assisted moderation** (the `DigitalWonderlab.CommunityAi` add-on):
 
@@ -227,13 +253,13 @@ first-class, always-on concern rather than a bolt-on.
   Umbraco.AI is provider-agnostic and supports Anthropic, OpenAI, Google Gemini, Amazon
   Bedrock and Microsoft AI Foundry.
 - **Your own API key with that LLM provider.** You bring your own account and the provider
-  bills you directly for usage - AI moderation costs a fraction of a penny per post, but it
-  is not free and it is not billed by us. Your keys, spend and audit trail stay inside
-  Umbraco.AI; this suite never handles them.
+  bills you directly for usage. It is not free and it is not billed by us; what it costs
+  depends on the model and the volume you choose. Your keys, spend and audit trail stay
+  inside Umbraco.AI, and this suite does not handle them.
 
 > **None of the above is needed to moderate.** The deterministic rules engine is always on,
 > always free, and needs no AI, no keys and no accounts. The AI add-on only layers an extra
-> review on top, and if it is unavailable the rules verdict stands and posting continues.
+> review on top; if it errors or does not answer within 8 seconds, the rules verdict stands.
 
 ## Install
 

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json",
+  "AuthorDetails": {
+    "Name": "Digital Wonderlab",
+    "Description": "As a proud Certified B Corporation®, we are passionate about amplifying the voices and visions of purpose-driven start-ups, SMEs, not-for-profits, and global enterprises.",
+    "Url": "https://digitalwonderlab.com",
+    "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/dwl-marketplace.png",
+    "Contributors": [
+      {
+        "Name": "Kevin Triggle"
+      }
+    ],
+    "SyncContributorsFromRepository": false
+  },
+  "Category": "Editor Tools",
+  "IssueTrackerUrl": "https://github.com/dwlgit/community-suite/issues",
+  "Description": "Page comments for any Umbraco 17 page, moderated by the same engine and from the same queue as Community Forum. Add them with no code by dropping the Comments block into a Block List or Block Grid, or per document type via the Commentable composition.\n\nEvery comment runs through a deterministic rules engine (spam lexicon, tiered profanity, obfuscation, link flooding, blocked and promotional word lists), with optional AI-assisted review via the official Umbraco.AI. Members of the Moderators member group approve and remove inline on the page itself with no backoffice account; administrators get the unified backoffice queue in the shared Community section, covering page comments and forum posts in one list.\n\nAlso includes one level of replies, an emoji composer, edit and delete your own comment, member avatars, member reporting with auto-hide, a hold-everything mode per page, honeypot and rate limiting, allow-list HTML sanitisation and CSRF-protected forms. When a member deletes their account their comments stay readable but are stripped of identifying data.\n\nCommenting requires a signed-in member. Comments are single-culture in v1, so language variants of a page share one conversation. Free to use.",
+  "LicenseTypes": [
+    "Free"
+  ],
+  "PackageType": "Package",
+  "Screenshots": [
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/moderation-queue.png",
+      "Caption": "The shared Community moderation queue: page comments and forum posts in one list"
+    }
+  ],
+  "RelatedPackages": [
+    {
+      "PackageId": "DigitalWonderlab.CommunityForum",
+      "Description": "An Umbraco-native, SEO-first discussion forum - same members, same moderation queue",
+      "GroupTitle": "The community suite"
+    }
+  ],
+  "Tags": [
+    "Comments",
+    "Community",
+    "Moderation",
+    "Members",
+    "Blocks"
+  ],
+  "Title": "Community Comments for Umbraco",
+  "VersionDependencyMode": "SemVer"
+}

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Community Suite for Umbraco</title>
+<meta name="description" content="A forum and page comments for Umbraco 17, sharing one moderation engine, one backoffice section and one moderation queue." />
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #16181d;
+    --muted: #5b6270;
+    --line: #e3e6ec;
+    --card: #f7f8fa;
+    --accent: #1f6feb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1115;
+      --fg: #e9ecf1;
+      --muted: #9aa3b2;
+      --line: #242833;
+      --card: #161923;
+      --accent: #6ea8fe;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1115;
+    --fg: #e9ecf1;
+    --muted: #9aa3b2;
+    --line: #242833;
+    --card: #161923;
+    --accent: #6ea8fe;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 56px 16px 72px; }
+  h1 { font-size: 2rem; line-height: 1.25; margin: 0 0 12px; letter-spacing: -0.02em; }
+  h2 { font-size: 1.15rem; margin: 40px 0 12px; letter-spacing: -0.01em; }
+  p { margin: 0 0 16px; }
+  .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 28px; }
+  a { color: var(--accent); }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .card h3 { margin: 0 0 6px; font-size: 1rem; }
+  .card p { margin: 0 0 10px; color: var(--muted); font-size: 0.93rem; }
+  code {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-size: 0.88em;
+  }
+  pre {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  pre code { background: none; border: 0; padding: 0; }
+  ul { margin: 0 0 16px; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Community Suite for Umbraco</h1>
+  <p class="lead">
+    A discussion forum and page comments for Umbraco 17, sharing one moderation engine,
+    one backoffice <strong>Community</strong> section and one moderation queue. Install the
+    forum, page comments, or both.
+  </p>
+
+  <img src="screenshots/forum-home.png" alt="The forum front-end: boards grouped by category" />
+
+  <h2>The packages</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Community Forum</h3>
+      <p>An Umbraco-native, server-rendered discussion forum.</p>
+      <a href="https://www.nuget.org/packages/DigitalWonderlab.CommunityForum">NuGet</a> &middot;
+      <a href="https://github.com/dwlgit/community-suite/blob/main/docs/community-forum.md">Docs</a>
+    </div>
+    <div class="card">
+      <h3>Community Comments</h3>
+      <p>Page comments for any Umbraco page, moderated from the same queue.</p>
+      <a href="https://www.nuget.org/packages/DigitalWonderlab.CommunityComments">NuGet</a> &middot;
+      <a href="https://github.com/dwlgit/community-suite/blob/main/docs/community-comments.md">Docs</a>
+    </div>
+    <div class="card">
+      <h3>Community AI Moderation</h3>
+      <p>Optional AI review via the official Umbraco.AI. Works with either package.</p>
+      <a href="https://www.nuget.org/packages/DigitalWonderlab.CommunityAi">NuGet</a> &middot;
+      <a href="https://github.com/dwlgit/community-suite/blob/main/docs/community-ai.md">Docs</a>
+    </div>
+    <div class="card">
+      <h3>Community Core</h3>
+      <p>Shared moderation engine, member authentication and the Community section. Installed automatically.</p>
+      <a href="https://www.nuget.org/packages/DigitalWonderlab.CommunityCore">NuGet</a> &middot;
+      <a href="https://github.com/dwlgit/community-suite/blob/main/docs/community-core.md">Docs</a>
+    </div>
+  </div>
+
+  <h2>Install</h2>
+  <pre><code># add either or both feature packages - Core installs automatically
+dotnet add package DigitalWonderlab.CommunityForum
+dotnet add package DigitalWonderlab.CommunityComments
+
+# optional: AI-assisted moderation
+dotnet add package DigitalWonderlab.CommunityAi</code></pre>
+  <p>Then open the <strong>Community</strong> section in the backoffice and run <strong>Setup</strong>.</p>
+
+  <h2>Requirements</h2>
+  <ul>
+    <li>Umbraco CMS <strong>17 LTS</strong> (17.6.2+) on <strong>.NET 10</strong>, with standard Umbraco Members enabled.</li>
+    <li>SMTP only if you want notification emails.</li>
+    <li>On production, either <code>Community:Auth:BaseUrl</code> set to your public site URL, or
+        ASP.NET Core <code>AllowedHosts</code> set to a real allow-list. Password reset and email
+        verification will not send without one of the two.</li>
+    <li>AI moderation additionally needs <a href="https://marketplace.umbraco.com/package/umbraco.ai">Umbraco.AI</a>,
+        a provider package, and your own API key with that provider.</li>
+  </ul>
+
+  <h2>Documentation and support</h2>
+  <ul>
+    <li><a href="https://github.com/dwlgit/community-suite">Full documentation, screenshots and changelog</a></li>
+    <li><a href="https://github.com/dwlgit/community-suite/issues">Bugs and feature requests</a></li>
+    <li>Commercial, redistribution or OEM enquiries: <a href="https://digitalwonderlab.com">Digital Wonderlab</a></li>
+  </ul>
+
+  <h2>Licence</h2>
+  <p>
+    Free to use, under a proprietary licence: install and use in unlimited development, staging and
+    production Umbraco websites at no charge. Redistribution and resale are not permitted. The full
+    End User Licence Agreement ships inside each package. The source for these packages is not
+    published; this site and its repository hold documentation, images and the issue tracker only.
+  </p>
+
+  <footer>
+    Part of the <code>DigitalWonderlab.*</code> family of Umbraco packages.
+    Built by <a href="https://digitalwonderlab.com">Digital Wonderlab</a>.
+  </footer>
+
+</div>
+</body>
+</html>
