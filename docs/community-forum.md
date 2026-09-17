@@ -15,20 +15,20 @@ a support cost.
 > review integrates with the official Umbraco.AI** and layers on top when you want it.
 
 > Part of the **Community for Umbraco** suite. See the
-> [suite overview](https://github.com/dwlgit/community) for page comments, the shared
+> [suite overview](https://github.com/dwlgit/community-suite) for page comments, the shared
 > moderation core, and the AI add-on.
 
 ## Screenshots
 
-![The forum front-end - boards grouped by category](https://raw.githubusercontent.com/dwlgit/community/main/screenshots/forum-home.png)
+![The forum front-end - boards grouped by category](../screenshots/forum-home.png)
 
 | Threads & replies | Polls |
 | --- | --- |
-| ![A thread with replies](https://raw.githubusercontent.com/dwlgit/community/main/screenshots/thread.png) | ![A poll with live results](https://raw.githubusercontent.com/dwlgit/community/main/screenshots/poll.png) |
+| ![A thread with replies](../screenshots/thread.png) | ![A poll with live results](../screenshots/poll.png) |
 
 | Q&A boards | Backoffice moderation queue |
 | --- | --- |
-| ![A Q&A board](https://raw.githubusercontent.com/dwlgit/community/main/screenshots/qa-board.png) | ![The moderation queue holding a spam post](https://raw.githubusercontent.com/dwlgit/community/main/screenshots/moderation-queue.png) |
+| ![A Q&A board](../screenshots/qa-board.png) | ![The moderation queue holding a spam post](../screenshots/moderation-queue.png) |
 
 ## Why this exists
 

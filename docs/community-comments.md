@@ -2,7 +2,7 @@
 
 WordPress-style comments for any Umbraco page - with the moderation problem actually solved.
 
-![Comments on an Umbraco page](https://raw.githubusercontent.com/dwlgit/community/main/screenshots/comments-page.png)
+![Comments on an Umbraco page](../screenshots/comments-page.png)
 
 Members comment on your pages; every comment runs through an always-on deterministic
 moderation rules engine (spam, abuse, link-flooding, blocked words), with optional
