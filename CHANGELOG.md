@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2 - packaging only
+
+Release assemblies no longer embed the build machine's symbol path, so the published packages
+do not disclose the builder's local file system. No functional change; everything tested for
+1.3.1 applies unchanged. This is the first publicly listed version.
+
 ## 1.3.1 - pre-release audit fixes
 
 A fresh review before public listing found a set of correctness, privacy and packaging problems.
