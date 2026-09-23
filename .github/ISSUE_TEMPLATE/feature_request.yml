@@ -11,7 +11,7 @@ body:
         - Community Forum
         - Community Comments
         - Community AI Moderation
-        - Community Core (shared: sign-in, accounts, moderation queue)
+        - "Community Core (shared: sign-in, accounts, moderation queue)"
         - The suite as a whole
     validations:
       required: true
