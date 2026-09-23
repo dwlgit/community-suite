@@ -1,0 +1,84 @@
+name: Bug report
+description: Something in the Community suite is not behaving as documented
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      description: Which package is the problem in? Pick "Not sure" if you can't tell.
+      options:
+        - Community Forum
+        - Community Comments
+        - Community AI Moderation
+        - Community Core (shared: sign-in, accounts, moderation queue)
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: package-version
+    attributes:
+      label: Package version
+      description: From your csproj or the NuGet package manager.
+      placeholder: "1.3.2"
+    validations:
+      required: true
+  - type: input
+    id: umbraco-version
+    attributes:
+      label: Umbraco version
+      placeholder: "17.6.2"
+    validations:
+      required: true
+  - type: dropdown
+    id: hosting
+    attributes:
+      label: Hosting
+      options:
+        - Umbraco Cloud
+        - Azure App Service
+        - IIS / Windows server
+        - Linux / Docker
+        - Local development
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: install-shape
+    attributes:
+      label: Install type
+      options:
+        - Fresh install
+        - Upgrade from an earlier version
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, and what went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to...
+        2. Click...
+        3. See error
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: >
+        Paste any relevant lines from the Umbraco log viewer (Settings > Log Viewer).
+        Please remove anything sensitive such as API keys, connection strings or member
+        email addresses before posting.
+      render: shell

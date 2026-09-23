@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest an improvement or new capability for the Community suite
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      options:
+        - Community Forum
+        - Community Comments
+        - Community AI Moderation
+        - Community Core (shared: sign-in, accounts, moderation queue)
+        - The suite as a whole
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: >
+        Describe the situation you're in, rather than only the feature you have in mind.
+        Knowing the underlying need helps us judge fit and sometimes suggests a simpler answer.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to happen?
+  - type: textarea
+    id: workaround
+    attributes:
+      label: What do you do today instead?
+      description: Any current workaround, or "nothing, we just live without it".

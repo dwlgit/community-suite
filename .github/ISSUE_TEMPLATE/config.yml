@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://dwlgit.github.io/community-suite/
+    about: Setup guides, configuration reference and limitations for every package.
+  - name: Commercial and OEM enquiries
+    url: https://digitalwonderlab.com
+    about: Redistribution, resale or bespoke work around the suite.
