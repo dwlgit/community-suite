@@ -1,10 +1,24 @@
 # Changelog
 
-## 1.3.2 - packaging only
+## 1.3.3 - dependency refresh
+
+- HtmlSanitizer updated to 9.2.1039, which fixes an attribute bypass in its `SanitizeDom(string)`
+  wrapper. The packages only call `Sanitize(string)`, so the bypass was never reachable here; the
+  update means the first listed version does not carry a sanitizer with a published fix behind it.
+- The AI add-on now flows the shared core's build assets the same way the forum and comments
+  packages do, so a site that installs only the AI add-on alongside one of them gets identical
+  core asset handling. No change for existing installs.
+- Verified against Umbraco CMS 17.7.1 and Umbraco.AI 17.5.2 (the current 17.x releases). The
+  supported ranges are unchanged: Umbraco 17.6.2 and later, Umbraco.AI 17.3.1 and later, below 18.
+
+No other functional change; everything tested for 1.3.1 applies unchanged. This is the first
+publicly listed version.
+
+## 1.3.2 - packaging only (not published)
 
 Release assemblies no longer embed the build machine's symbol path, so the published packages
-do not disclose the builder's local file system. No functional change; everything tested for
-1.3.1 applies unchanged. This is the first publicly listed version.
+do not disclose the builder's local file system. No functional change. Superseded by 1.3.3
+before it was published.
 
 ## 1.3.1 - pre-release audit fixes
 
