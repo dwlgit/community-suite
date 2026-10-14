@@ -36,6 +36,11 @@ dotnet add package DigitalWonderlab.CommunityAi
 Then configure an Umbraco.AI connection/profile in the **AI** section, and switch
 on AI moderation in **Community → Settings → Moderation**.
 
+If you use Anthropic, create the API key **inside a workspace** (workspace-scoped).
+An organisation-scoped key is rejected by the API with "This API key is not scoped
+to a workspace", and the Umbraco.AI Anthropic provider has no setting for the
+workspace header, so every moderation call would fall back to the rules verdict.
+
 ## Licence
 
 Free to use. See LICENSE - proprietary, no redistribution or resale.
