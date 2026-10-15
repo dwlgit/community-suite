@@ -27,6 +27,12 @@ You don't need to install it yourself: it comes with either package.
 
 Reserved addresses: `/community/sign-in` and `/community/auth/*`.
 
+## Problems and ideas
+
+Report bugs or suggest features at
+[github.com/dwlgit/community-suite/issues](https://github.com/dwlgit/community-suite/issues).
+
 ## Licence
 
-Free to use. Redistribution and resale are not allowed. See the `LICENSE` file in the package.
+Free to use. Reselling or redistributing the package itself is not allowed. See the
+`LICENSE` file in the package.

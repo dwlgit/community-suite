@@ -1,0 +1,82 @@
+Community Forum for Umbraco suite - End User Licence Agreement
+Version 2, October 2026
+Copyright (c) 2026 Digital Wonderlab. All rights reserved.
+
+This software ("the Software") - the DigitalWonderlab.CommunityCore,
+DigitalWonderlab.CommunityForum and DigitalWonderlab.CommunityComments packages
+and the optional DigitalWonderlab.CommunityAi add-on, including their compiled
+assemblies, client files, views and other content - is licensed, not sold.
+"You" means the person or organisation that installs or uses the Software.
+
+1. Grant of licence (free to use)
+   Digital Wonderlab grants you a perpetual, worldwide, royalty-free,
+   non-exclusive licence to install and use the Software in any number of
+   development, staging and production Umbraco websites, at no charge, subject
+   to the terms below.
+
+2. What you may do
+   In addition to the grant in clause 1, you may:
+   (a) install, configure, maintain and support the Software on Umbraco
+       websites you build or run for your clients or employer, and hand those
+       websites over to them. Each client or employer may then use the Software
+       in that website under this licence;
+   (b) keep the Software's files, including the views and client files it adds
+       to a website, in that website's source control, build pipelines, backups
+       and hosting, including Umbraco Cloud, and share them with the people who
+       work on or host that website;
+   (c) modify the views, styles and other client files the Software adds to a
+       website, for use in that website.
+
+3. What you may not do
+   Except as clause 2 allows, you may not:
+   (a) sell, resell, sublicense, rent or lease the Software, or offer it to
+       others as a product or download in its own right;
+   (b) publish the Software's packages, assemblies or source code (including any
+       decompiled or reconstructed source) separately from a website it is
+       installed in;
+   (c) remove or alter any copyright, licensing or attribution notices;
+   (d) reverse engineer, decompile or disassemble the Software, except to the
+       extent that applicable law allows despite this restriction.
+   Nothing here restricts your rights under the separate open-source licences of
+   any third-party components the Software depends on.
+
+4. Ownership
+   The Software is and remains the property of Digital Wonderlab and is
+   protected by copyright and other intellectual property laws. Changes you make
+   under clause 2(c) are yours, but the Software they are based on remains ours.
+   This licence grants you no rights to Digital Wonderlab trademarks or branding.
+
+5. Paid features
+   This version of the Software is provided in full at no charge. Digital
+   Wonderlab may offer additional or premium features in future versions under
+   separate commercial terms. This licence covers the version you have
+   installed, and continues to apply to it whatever later versions are offered
+   on.
+
+6. No warranty
+   To the maximum extent permitted by law, the Software is provided "as is",
+   without warranty of any kind, express or implied, including warranties of
+   satisfactory quality, fitness for a particular purpose and non-infringement.
+
+7. Limitation of liability
+   To the maximum extent permitted by law, Digital Wonderlab is not liable for
+   any loss or damage, whether in contract, tort (including negligence) or
+   otherwise, arising out of or in connection with the Software or its use.
+   Nothing in this licence limits or excludes liability that cannot be limited
+   or excluded by law, including liability for death or personal injury caused
+   by negligence, or for fraud.
+
+8. Termination
+   If you breach this licence, Digital Wonderlab may give you written notice
+   describing the breach. If you do not put it right within 30 days of that
+   notice, this licence ends, and you must stop using the Software and remove
+   it. Websites handed over to clients under clause 2(a) are not affected by a
+   breach by the person who built them.
+
+9. Governing law
+   This licence is governed by the law of England and Wales, and the courts of
+   England and Wales have exclusive jurisdiction over any dispute arising from
+   it.
+
+For commercial, redistribution or OEM enquiries, contact Digital Wonderlab at
+https://digitalwonderlab.com.

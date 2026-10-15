@@ -158,8 +158,10 @@ publishing), remove them from your repository with `git rm`.
 ## Licence
 
 Free to use, under a proprietary licence: install it on any number of development, staging
-and production sites at no charge. Redistribution and resale are not allowed. The full
-licence is included in each package and shown on its NuGet page.
+and production sites at no charge, including sites you build for clients. You can keep the
+packages' files in your site's source control and hosting, and change the views and styles
+they add. Reselling or redistributing the packages themselves is not allowed. The full
+licence is in [LICENSE](LICENSE), and in each package.
 
 The source code is not published. This repository holds documentation, images and the issue
 tracker only.

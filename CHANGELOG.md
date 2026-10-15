@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.6 - licence update
+
+- New version of the licence (EULA version 2). It now says plainly that you may install the
+  packages on sites you build for clients, keep their files in your site's source control and
+  hosting (including Umbraco Cloud), and change the views and styles they add. It also adds
+  governing law (England and Wales), limits the warranty and liability exclusions to what the
+  law allows, and replaces automatic termination with 30 days' notice to put a breach right.
+- READMEs now say where to report problems.
+
+No code change.
+
 ## 1.3.5 - comments component renamed
 
 - The comments view component is now called `CommunityComments`, to match the package and the

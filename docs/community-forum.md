@@ -202,9 +202,16 @@ publishing), remove them from your repository with `git rm`.
 - [Community AI Moderation](https://www.nuget.org/packages/DigitalWonderlab.CommunityAi):
   optional AI review of forum posts and comments.
 
+## Problems and ideas
+
+Report bugs or suggest features at
+[github.com/dwlgit/community-suite/issues](https://github.com/dwlgit/community-suite/issues).
+
 ## Licence
 
-Free to use on any number of sites. Redistribution and resale are not allowed. The full
-licence is in the `LICENSE` file in the package.
+Free to use on any number of sites, including sites you build for clients. You can keep the
+package's files in your site's source control and hosting, and change the views and styles it
+adds. Reselling or redistributing the package itself is not allowed. The full licence is in the
+`LICENSE` file in the package.
 
 Built by [Digital Wonderlab](https://digitalwonderlab.com).
