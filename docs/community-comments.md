@@ -7,6 +7,8 @@ it on its own or alongside the forum.
 
 Free to use. See [Licence](#licence).
 
+![Comments and replies on a page](../screenshots/comments-thread.png)
+
 ## Adding comments to a page
 
 There are two ways:

@@ -14,7 +14,7 @@
   },
   "Category": "Editor Tools",
   "IssueTrackerUrl": "https://github.com/dwlgit/community-suite/issues",
-  "Description": "A discussion forum that runs inside your Umbraco 17 site, with moderation built in.\n\nBoards are Umbraco content, so they get real URLs, SEO fields, publishing and permissions, and move between environments with Deploy or uSync. Threads and posts are stored in the package's own database tables, so a busy forum doesn't fill your content tree.\n\nEvery post is checked by a rules engine for spam, profanity, links and disguised words, and you can add your own word lists. Members of a Moderators member group get a moderation queue on the website, so your moderators don't need backoffice accounts. Administrators have a queue in the backoffice that also covers page comments.\n\nAlso includes tags, polls, accepted answers on Q&A boards, reactions, @mentions, direct messages, notifications, full-text search, members-only boards, structured data for search engines, RSS and an XML sitemap. Set two brand colours to match your site.\n\nIn this version the Forum node sits at the root of the content tree, and one forum per site is supported. Optional AI review is available through the DigitalWonderlab.CommunityAi package on NuGet. Free to use.",
+  "Description": "A discussion forum that runs inside your Umbraco 17 site, with moderation built in. Boards are Umbraco content, while threads and posts live in their own tables, so a busy forum doesn't fill your content tree. Moderators can work on the website itself, without backoffice accounts. Free to use.",
   "LicenseTypes": [
     "Free"
   ],

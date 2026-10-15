@@ -14,12 +14,16 @@
   },
   "Category": "Editor Tools",
   "IssueTrackerUrl": "https://github.com/dwlgit/community-suite/issues",
-  "Description": "Comments for any page on your Umbraco 17 site. Add the Comments block to a Block List or Block Grid, or add the Commentable composition to a document type.\n\nEvery comment is checked by the same rules engine as Community Forum, for spam, profanity, links and disguised words, plus your own word lists. Members of a Moderators member group can approve and remove comments on the page itself, without a backoffice account. Administrators have a queue in the backoffice, shared with the forum if you install both.\n\nAlso includes one level of replies, emoji, editing and deleting your own comments, member avatars, reporting, and a setting to hold every comment on a page for review.\n\nCommenting needs a signed-in member. In this version comments are not stored per language, so every language version of a page shares one set. Optional AI review is available through the DigitalWonderlab.CommunityAi package on NuGet. Free to use.",
+  "Description": "Comments for any page on your Umbraco 17 site, added with a block or a composition. Every comment goes through the same moderation as Community Forum, and moderators can approve or remove comments on the page itself, without a backoffice account. Free to use.",
   "LicenseTypes": [
     "Free"
   ],
   "PackageType": "Package",
   "Screenshots": [
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/comments-thread.png",
+      "Caption": "Comments and replies on a page, as members see them"
+    },
     {
       "ImageUrl": "https://raw.githubusercontent.com/dwlgit/community-suite/main/screenshots/moderation-queue.png",
       "Caption": "The shared Community moderation queue: page comments and forum posts in one list"
