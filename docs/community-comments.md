@@ -17,7 +17,7 @@ There are two ways:
    *Enable comments* on the page, and add this to the template:
 
    ```cshtml
-   @await Component.InvokeAsync("DwlComments")
+   @await Component.InvokeAsync("CommunityComments")
    ```
 
 If comments don't appear with the second method, either *Enable comments* is off for that
@@ -25,7 +25,7 @@ page or the document type doesn't have the **Commentable** composition. To show 
 every page that uses a template, whatever the setting, use:
 
 ```cshtml
-@await Component.InvokeAsync("DwlComments", new { ignoreToggle = true })
+@await Component.InvokeAsync("CommunityComments", new { ignoreToggle = true })
 ```
 
 ## Moderation
@@ -86,7 +86,7 @@ own login page, set it in `appsettings.json`:
 ```
 
 A `returnUrl` is added so members come back to the page they were on. You can also set the
-login page each time you call the `DwlComments` component.
+login page each time you call the `CommunityComments` component.
 
 ### Umbraco Cloud
 
@@ -101,7 +101,7 @@ Before your first Cloud deployment with the package, add these lines to your sit
 **/Views/CommunityAuth/
 
 # Community Comments
-**/Views/Shared/Components/DwlComments/
+**/Views/Shared/Components/CommunityComments/
 **/Views/Partials/blockgrid/Components/communityCommentsBlock.cshtml
 **/Views/Partials/blocklist/Components/communityCommentsBlock.cshtml
 ```

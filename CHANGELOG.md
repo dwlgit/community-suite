@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.5 - comments component renamed
+
+- The comments view component is now called `CommunityComments`, to match the package and the
+  rest of the suite. Templates use `@await Component.InvokeAsync("CommunityComments")`.
+- The old name, `DwlComments`, still works, so existing templates need no change.
+- The component's views moved from `Views/Shared/Components/DwlComments/` to
+  `Views/Shared/Components/CommunityComments/`. On Umbraco Cloud, update that line in
+  `cloud.gitignore`. If you customised the old views, move your copies to the new folder.
+
 ## 1.3.4 - documentation
 
 - Rewrote the package READMEs and the Marketplace descriptions to be shorter and plainer.
@@ -9,7 +18,7 @@
 - The AI add-on is no longer listed on the Umbraco Marketplace, because it does nothing
   without the forum or comments package. It is still on NuGet.
 
-No code change. Everything tested for 1.3.1 still applies.
+No code change. Published but not listed; superseded by 1.3.5.
 
 ## 1.3.3 - dependency refresh
 

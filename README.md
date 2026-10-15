@@ -131,7 +131,7 @@ Before your first Cloud deployment, add the lines for the packages you use to yo
 **/Views/Partials/Community/
 
 # Community Comments
-**/Views/Shared/Components/DwlComments/
+**/Views/Shared/Components/CommunityComments/
 **/Views/Partials/blockgrid/Components/communityCommentsBlock.cshtml
 **/Views/Partials/blocklist/Components/communityCommentsBlock.cshtml
 ```
