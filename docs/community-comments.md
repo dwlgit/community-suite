@@ -1,61 +1,79 @@
 # Community Comments for Umbraco
 
-WordPress-style comments for any Umbraco page, moderated by the same engine and from the
-same queue as Community Forum.
+Comments for any page on your Umbraco 17 site. Signed-in members comment and reply, and every
+comment goes through the same moderation as
+[Community Forum](https://www.nuget.org/packages/DigitalWonderlab.CommunityForum). You can use
+it on its own or alongside the forum.
 
-Members comment on your pages; every comment runs through an always-on deterministic
-moderation rules engine (spam, abuse, link-flooding, blocked words), with optional
-AI-assisted review that integrates with the official **Umbraco.AI**. The shared
-**Community** backoffice section - installed
-automatically - gives you a moderation queue and suite-wide settings out of the box.
+Free to use. See [Licence](#licence).
 
-## Goes great with Community Forum
+## Adding comments to a page
 
-Comments is part of the same suite as
-[**Community Forum for Umbraco**](https://www.nuget.org/packages/DigitalWonderlab.CommunityForum),
-an Umbraco-native, SEO-first discussion forum. Install both and forum posts and page
-comments share one moderation engine, **one moderation queue**, one settings screen and one
-optional AI add-on, with the same members and the same Moderators group.
+There are two ways:
 
-## Add comments to a page - two ways
+1. **Use the block.** Add the **Comments** block to any Block List or Block Grid. Placing the
+   block is all it takes; there is nothing else to switch on.
+2. **Use a template.** Add the **Commentable** composition to a document type, tick
+   *Enable comments* on the page, and add this to the template:
 
-1. **No code:** drop the **Comments (block)** into any Block List / Block Grid area.
-   Placing the block *is* the opt-in, so there is nothing else to switch on.
-2. **Template:** add the **Commentable** composition to a document type, tick *Enable
-   comments* on the page, and render `@await Component.InvokeAsync("DwlComments")` in
-   the template.
+   ```cshtml
+   @await Component.InvokeAsync("DwlComments")
+   ```
 
-> **If comments do not appear on a page using route 2**, the page's *Enable comments*
-> toggle is off, or the document type is missing the **Commentable** composition (so the
-> toggle never appears and reads as off). The component renders nothing in that case,
-> by design. To render comments on every page using a template regardless of the toggle,
-> invoke it with `@await Component.InvokeAsync("DwlComments", new { ignoreToggle = true })`.
+If comments don't appear with the second method, either *Enable comments* is off for that
+page or the document type doesn't have the **Commentable** composition. To show comments on
+every page that uses a template, whatever the setting, use:
+
+```cshtml
+@await Component.InvokeAsync("DwlComments", new { ignoreToggle = true })
+```
+
+## Moderation
+
+Every comment is checked by a rules engine that scores it for spam, profanity, links and
+disguised words, plus any blocked words and phrases you add in **Community > Settings**.
+Comments that score too high are held for review or rejected.
+
+Members of the **Moderators** member group can approve and remove comments on the page
+itself, without a backoffice account. Administrators get a queue in the backoffice
+**Community** section, which is installed automatically. If you also run Community Forum,
+that queue shows forum posts and comments together.
+
+Members can report a comment, and enough reports hide it until a moderator has looked at it.
+You can also set a page to hold every comment for review.
+
+For AI review on top of the rules, add the optional
+[`DigitalWonderlab.CommunityAi`](https://www.nuget.org/packages/DigitalWonderlab.CommunityAi)
+package.
 
 ## Features
 
-- Members-only commenting with one level of replies
-- Comment composer with emoji, plus **edit and delete your own comment**
-- Member avatars on every comment (Gravatar, with a neutral placeholder fallback)
-- Action feedback as unobtrusive toasts, with inline validation instead of a full page reload
-- Always-on moderation rules engine + admin-configured blocked words / spam / promotional phrases
-- Optional AI moderation (Umbraco.AI) - shared with Community Forum, one toggle for both.
-  If it errors or does not answer within 8 seconds, the rules verdict stands
-- Member **Report** action, one open report per member per comment and rate limited;
-  enough distinct reports auto-hide a comment for review
-- Inline moderator actions (Approve / Remove) for members in the Moderators group
-- Unified backoffice moderation queue + settings in the Community section
-- **Hold every comment** for review per page, or let the rules engine decide (the default)
-- **Account erasure**: when a member deletes their account through Community Forum, their
-  comments stay readable but are stripped of anything identifying and shown as
-  "[deleted user]". On a site without the forum, call `ICommunityErasureService` from your
-  own delete-account flow to get the same result
-- Self-contained, brand-neutral styling that picks up your site's `--primary` / `--accent`
-- Honeypot + rate limiting, allow-list HTML sanitisation, CSRF-protected forms
+- One level of replies
+- Emoji, and editing or deleting your own comment
+- Member avatars (Gravatar, with a plain placeholder if there isn't one)
+- Messages and validation shown in place, without reloading the page
+- Report button, limited to one open report per member per comment
+- Styling that picks up your site's `--primary` and `--accent` colours
+- Honeypot fields, rate limiting, HTML cleaning and anti-forgery tokens on every form
+- When a member deletes their account through Community Forum, their comments stay but are
+  shown as "[deleted user]" with personal details removed. Without the forum, call
+  `ICommunityErasureService` from your own account deletion code to do the same.
+
+## Requirements
+
+- Umbraco CMS 17 (17.6.2 or later) on .NET 10
+- Umbraco Members
+
+## Install
+
+```
+dotnet add package DigitalWonderlab.CommunityComments
+```
 
 ## Configuration
 
-The "sign in to comment" prompt links to the built-in `/community/sign-in` page by
-default. Point it at your own login page in `appsettings.json`:
+The "sign in to comment" link goes to the built-in `/community/sign-in` page. To use your
+own login page, set it in `appsettings.json`:
 
 ```json
 {
@@ -67,21 +85,42 @@ default. Point it at your own login page in `appsettings.json`:
 }
 ```
 
-A `returnUrl` query parameter is appended so members come back to the page they were
-commenting on. You can also override it per invocation via the `DwlComments` component.
+A `returnUrl` is added so members come back to the page they were on. You can also set the
+login page each time you call the `DwlComments` component.
 
-## Limitations
+### Umbraco Cloud
 
-- **Single-culture.** A comment is stored without a culture, so every language variant of
-  a page shares one conversation.
-- **Moderated inline or in the backoffice.** Comments do not appear in the forum's
-  front-end moderation queue; members of the Moderators group action them on the page
-  itself, and the backoffice queue covers comments and forum posts together.
-- **Commenting requires a signed-in member, not a verified one.** The forum's
-  email-verification gate does not apply to comments.
-- **No registration flow of its own.** On a site without Community Forum you need a way
-  for members to register; the neutral `/community/sign-in` page handles sign-in and
-  password reset only.
-- **A page's comments are loaded in full**, not paged.
+The package copies its views and backoffice files into your site when it builds. Umbraco
+Cloud sees those files as changes and tries to commit them, which can block deployments.
+Before your first Cloud deployment with the package, add these lines to your site's
+`cloud.gitignore` (not `.gitignore`):
 
-Umbraco 17 LTS. Free to use - see LICENSE.
+```gitignore
+# Community Core (installed with comments)
+**/App_Plugins/CommunityCore/
+**/Views/CommunityAuth/
+
+# Community Comments
+**/Views/Shared/Components/DwlComments/
+**/Views/Partials/blockgrid/Components/communityCommentsBlock.cshtml
+**/Views/Partials/blocklist/Components/communityCommentsBlock.cshtml
+```
+
+## Limitations in this version
+
+- Comments are not stored per language, so every language version of a page shares one
+  set of comments.
+- Commenting needs a signed-in member. Unlike the forum, it doesn't require a verified
+  email address.
+- There is no registration page of its own. Without Community Forum you need your own way
+  for members to register; `/community/sign-in` handles signing in and password resets only.
+- Comments are moderated on the page or in the backoffice. They don't appear in the forum's
+  website moderation queue.
+- All of a page's comments load at once; they are not paged.
+
+## Licence
+
+Free to use on any number of sites. Redistribution and resale are not allowed. The full
+licence is in the `LICENSE` file in the package.
+
+Built by [Digital Wonderlab](https://digitalwonderlab.com).

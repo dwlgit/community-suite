@@ -1,31 +1,29 @@
-# Community suite for Umbraco - AI moderation add-on
+# Community AI Moderation for Umbraco
 
-Optional AI-assisted moderation for the Digital Wonderlab community suite:
-[**Community Forum**](https://www.nuget.org/packages/DigitalWonderlab.CommunityForum)
-and [**Community Comments**](https://www.nuget.org/packages/DigitalWonderlab.CommunityComments).
-One install, one toggle - AI review covers forum posts **and** page comments alike.
+An optional add-on for
+[Community Forum](https://www.nuget.org/packages/DigitalWonderlab.CommunityForum) and
+[Community Comments](https://www.nuget.org/packages/DigitalWonderlab.CommunityComments). It
+does nothing on its own: install it alongside one or both of those packages.
 
-Install this add-on to layer an AI spam/toxicity review on top of the suite's
-built-in moderation rules engine. It runs through the official **Umbraco.AI**
-layer, so it is provider-agnostic - you bring your own connection and profile
-(Anthropic/Claude is supported), and your keys and AI spend stay governed by
-Umbraco.AI.
+Both packages already check every post and comment with a rules engine. This add-on asks an
+AI model to review each one as well, which catches things word lists miss, such as scams
+written in plain, polite language. One setting turns it on for forum posts and comments
+together.
 
-**Without this add-on, the suite still moderates** with its always-on
-deterministic rules engine (spam, profanity, links, obfuscation, and your own
-blocked/spam/promotional word lists). The add-on only adds the AI layer on top. If
-the AI errors, has no connection configured, returns something unreadable, or does
-not answer within 8 seconds, the call is abandoned and the rules verdict stands.
+It works through [Umbraco.AI](https://marketplace.umbraco.com/package/umbraco.ai), so you
+choose the AI provider and use your own account and API key. We never see or store your key,
+and the provider bills you directly.
 
-The add-on works with either feature package on its own: Community Forum alone,
-Community Comments alone, or both.
+If the AI service fails, isn't set up, sends back something unreadable or takes longer than
+8 seconds, the rules engine's decision is used instead. Posting is never blocked by an AI
+outage.
 
 ## Requirements
 
 - `DigitalWonderlab.CommunityForum` and/or `DigitalWonderlab.CommunityComments`
-- Umbraco CMS **17 LTS**, **.NET 10**
-- `Umbraco.AI` with a configured connection + profile, plus a provider package
-  (e.g. `Umbraco.AI.Anthropic`) - chosen and installed by you
+- Umbraco CMS 17 on .NET 10
+- `Umbraco.AI`, with a connection and profile set up, and a provider package such as
+  `Umbraco.AI.Anthropic`
 
 ## Install
 
@@ -33,17 +31,17 @@ Community Comments alone, or both.
 dotnet add package DigitalWonderlab.CommunityAi
 ```
 
-Then configure an Umbraco.AI connection/profile in the **AI** section, and switch
-on AI moderation in **Community → Settings → Moderation**.
+Set up a connection and profile in the backoffice **AI** section, then switch on AI
+moderation in **Community > Settings > Moderation**.
 
-If you use Anthropic, create the API key **inside a workspace** (workspace-scoped).
-An organisation-scoped key is rejected by the API with "This API key is not scoped
-to a workspace", and the Umbraco.AI Anthropic provider has no setting for the
-workspace header, so every moderation call would fall back to the rules verdict.
+**Using Anthropic?** Create the API key inside a workspace. Anthropic rejects
+organisation-level keys for this ("This API key is not scoped to a workspace"), and the
+Umbraco.AI Anthropic provider has no way to name a workspace, so every check would fall back
+to the rules engine.
 
 ## Licence
 
-Free to use. See LICENSE - proprietary, no redistribution or resale.
+Free to use on any number of sites. Redistribution and resale are not allowed. The full
+licence is in the `LICENSE` file in the package.
 
-Part of the `DigitalWonderlab.*` family of Umbraco packages. Built by
-[Digital Wonderlab](https://digitalwonderlab.com).
+Built by [Digital Wonderlab](https://digitalwonderlab.com).

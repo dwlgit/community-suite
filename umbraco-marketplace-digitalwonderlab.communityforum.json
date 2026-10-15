@@ -14,7 +14,7 @@
   },
   "Category": "Editor Tools",
   "IssueTrackerUrl": "https://github.com/dwlgit/community-suite/issues",
-  "Description": "An Umbraco-native discussion forum for Umbraco 17. Boards are Umbraco content (Forum > Category > Board) with real URLs, SEO fields and publishing; threads, posts, reports and profiles live in the package's own database tables, so conversation volume does not grow your content tree. Server-rendered throughout, with clean slugged URLs, DiscussionForumPosting and QAPage structured data, canonical tags, RSS and an XML sitemap.\n\nModeration ships with it. A deterministic rules engine scores every submission (spam lexicon, tiered profanity, obfuscation, link flooding, contact details) alongside admin-configured word lists, member reporting with auto-hide, a new-member gate, mute and ban. Moderators do not need backoffice accounts: add a member to the Moderators member group and they get a full moderation queue in the front end, inside your own community layout. Administrators get a unified backoffice queue covering forum posts and page comments together.\n\nAlso includes threads and replies, Latest/Newest/Unanswered/Top tabs, pagination, tags, polls, reactions, quoting, mark-as-answered, unread tracking, at-mentions, direct messages, an in-app notification centre, reply notification emails, member profiles, full-text Examine search, members-only boards excluded from every public listing, and self-service accounts with email verification and account deletion. Two-colour branding and dark mode.\n\nIn v1 the Forum node sits at the root of your content tree, and one Forum per installation is the supported shape. The optional DigitalWonderlab.CommunityAi add-on layers Umbraco.AI review on top. Free to use.",
+  "Description": "A discussion forum that runs inside your Umbraco 17 site, with moderation built in.\n\nBoards are Umbraco content, so they get real URLs, SEO fields, publishing and permissions, and move between environments with Deploy or uSync. Threads and posts are stored in the package's own database tables, so a busy forum doesn't fill your content tree.\n\nEvery post is checked by a rules engine for spam, profanity, links and disguised words, and you can add your own word lists. Members of a Moderators member group get a moderation queue on the website, so your moderators don't need backoffice accounts. Administrators have a queue in the backoffice that also covers page comments.\n\nAlso includes tags, polls, accepted answers on Q&A boards, reactions, @mentions, direct messages, notifications, full-text search, members-only boards, structured data for search engines, RSS and an XML sitemap. Set two brand colours to match your site.\n\nIn this version the Forum node sits at the root of the content tree, and one forum per site is supported. Optional AI review is available through the DigitalWonderlab.CommunityAi package on NuGet. Free to use.",
   "LicenseTypes": [
     "Free"
   ],
@@ -48,7 +48,7 @@
   "RelatedPackages": [
     {
       "PackageId": "DigitalWonderlab.CommunityComments",
-      "Description": "WordPress-style page comments moderated from the same Community queue",
+      "Description": "Comments for any Umbraco page, moderated from the same queue",
       "GroupTitle": "The community suite"
     }
   ],

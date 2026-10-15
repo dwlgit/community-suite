@@ -1,35 +1,32 @@
 # Community Core for Umbraco
 
-The shared core for the Digital Wonderlab community suite. You normally don't install this
-directly - it arrives as a dependency of:
+Shared code for
+[Community Forum](https://www.nuget.org/packages/DigitalWonderlab.CommunityForum) and
+[Community Comments](https://www.nuget.org/packages/DigitalWonderlab.CommunityComments).
+You don't need to install it yourself: it comes with either package.
 
-- **DigitalWonderlab.CommunityForum** - an Umbraco-native discussion forum.
-- **DigitalWonderlab.CommunityComments** - WordPress-style page comments for any Umbraco page.
+## What it contains
 
-## What it provides
-
-- **Moderation rules engine** - deterministic, always-on spam/abuse scoring (links, structure,
-  spam lexicon, tiered profanity, plus admin-configured blocked words / spam / promotional
-  phrases and a sensitivity level).
-- **AI moderation seam** - the optional `DigitalWonderlab.CommunityAi` add-on layers an
-  Umbraco.AI review on top; an AI outage never blocks posting.
-- **Community backoffice section** - one shared home with the unified **moderation queue**
-  (forum posts and page comments in one list) and suite-wide **Settings**.
-- **Shared member authentication** - sign in, sign out, forgot password and reset, at stable
-  routes under `/community/auth/`, plus a neutral, self-contained **`/community/sign-in`** page
-  that works with no forum installed and round-trips a same-site `returnUrl`. Email
-  verification, throttling on register/forgot/resend, and friendly handling of expired
-  antiforgery tokens are built in.
-- **Content sanitiser** - allow-list HTML sanitisation for all member-generated content.
-- **Shared settings store** - section-level defaults; per-content settings override them.
+- **The moderation rules engine**, which scores every post and comment for spam, profanity,
+  links and disguised words, plus your own blocked words and phrases and a strictness level.
+- **The hook for AI moderation**, used by the optional `DigitalWonderlab.CommunityAi`
+  package. If the AI is unavailable, posting carries on with the rules engine's decision.
+- **The Community section** in the backoffice, with one moderation queue for forum posts and
+  page comments, and the shared settings.
+- **Member sign-in**: sign in, sign out, forgotten password and reset, under
+  `/community/auth/`, plus a plain `/community/sign-in` page that works without the forum.
+  It includes email verification and limits on repeated attempts.
+- **HTML cleaning** for everything members write.
 
 ## Configuration
 
 | Setting | What it does |
 | --- | --- |
-| `Community:Auth:BaseUrl` | The base URL used to build emailed links (verification, password reset), so links never depend on a spoofable host header. |
-| `Community:Auth:ResetPageUrl` | Where a password-reset link lands. Defaults to the built-in sign-in page. |
+| `Community:Auth:BaseUrl` | Your site's public address, used to build links in verification and password reset emails. |
+| `Community:Auth:ResetPageUrl` | Where a password reset link takes the member. Defaults to the sign-in page. |
 
-Reserved front-end routes: `/community/sign-in` and `/community/auth/*`.
+Reserved addresses: `/community/sign-in` and `/community/auth/*`.
 
-Licence: proprietary, free to use - see LICENSE.
+## Licence
+
+Free to use. Redistribution and resale are not allowed. See the `LICENSE` file in the package.

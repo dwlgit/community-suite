@@ -14,7 +14,7 @@
   },
   "Category": "Editor Tools",
   "IssueTrackerUrl": "https://github.com/dwlgit/community-suite/issues",
-  "Description": "Page comments for any Umbraco 17 page, moderated by the same engine and from the same queue as Community Forum. Add them with no code by dropping the Comments block into a Block List or Block Grid, or per document type via the Commentable composition.\n\nEvery comment runs through a deterministic rules engine (spam lexicon, tiered profanity, obfuscation, link flooding, blocked and promotional word lists), with optional AI-assisted review via the official Umbraco.AI. Members of the Moderators member group approve and remove inline on the page itself with no backoffice account; administrators get the unified backoffice queue in the shared Community section, covering page comments and forum posts in one list.\n\nAlso includes one level of replies, an emoji composer, edit and delete your own comment, member avatars, member reporting with auto-hide, a hold-everything mode per page, honeypot and rate limiting, allow-list HTML sanitisation and CSRF-protected forms. When a member deletes their account their comments stay readable but are stripped of identifying data.\n\nCommenting requires a signed-in member. Comments are single-culture in v1, so language variants of a page share one conversation. Free to use.",
+  "Description": "Comments for any page on your Umbraco 17 site. Add the Comments block to a Block List or Block Grid, or add the Commentable composition to a document type.\n\nEvery comment is checked by the same rules engine as Community Forum, for spam, profanity, links and disguised words, plus your own word lists. Members of a Moderators member group can approve and remove comments on the page itself, without a backoffice account. Administrators have a queue in the backoffice, shared with the forum if you install both.\n\nAlso includes one level of replies, emoji, editing and deleting your own comments, member avatars, reporting, and a setting to hold every comment on a page for review.\n\nCommenting needs a signed-in member. In this version comments are not stored per language, so every language version of a page shares one set. Optional AI review is available through the DigitalWonderlab.CommunityAi package on NuGet. Free to use.",
   "LicenseTypes": [
     "Free"
   ],
@@ -28,7 +28,7 @@
   "RelatedPackages": [
     {
       "PackageId": "DigitalWonderlab.CommunityForum",
-      "Description": "An Umbraco-native, SEO-first discussion forum - same members, same moderation queue",
+      "Description": "A discussion forum for Umbraco, with the same members and moderation queue",
       "GroupTitle": "The community suite"
     }
   ],

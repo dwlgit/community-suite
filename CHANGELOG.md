@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.4 - documentation
+
+- Rewrote the package READMEs and the Marketplace descriptions to be shorter and plainer.
+- Added Umbraco Cloud setup notes (the `cloud.gitignore` lines) to the public docs. The
+  overview already linked to them, but they were missing.
+- The AI add-on's README now says Anthropic API keys must be created inside a workspace.
+- The AI add-on is no longer listed on the Umbraco Marketplace, because it does nothing
+  without the forum or comments package. It is still on NuGet.
+
+No code change. Everything tested for 1.3.1 still applies.
+
 ## 1.3.3 - dependency refresh
 
 - HtmlSanitizer updated to 9.2.1039, which fixes an attribute bypass in its `SanitizeDom(string)`
@@ -11,8 +22,8 @@
 - Verified against Umbraco CMS 17.7.1 and Umbraco.AI 17.5.2 (the current 17.x releases). The
   supported ranges are unchanged: Umbraco 17.6.2 and later, Umbraco.AI 17.3.1 and later, below 18.
 
-No other functional change; everything tested for 1.3.1 applies unchanged. This is the first
-publicly listed version.
+No other functional change; everything tested for 1.3.1 applies unchanged. Published but
+not listed; superseded by 1.3.4.
 
 ## 1.3.2 - packaging only (not published)
 
