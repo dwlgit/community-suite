@@ -27,6 +27,10 @@ You don't need to install it yourself: it comes with either package.
 
 Reserved addresses: `/community/sign-in` and `/community/auth/*`.
 
+## Telemetry
+
+Core carries the shared anonymous telemetry client used by Community Forum and Community Comments: one small report per installed package per day. Core itself sends nothing on its own. What is sent and how to turn it off is described in the Forum and Comments READMEs; the short version is a random install ID, versions and rough usage bands, never hostnames, content or member data, and off with `Community:Telemetry:Enabled = false` or the toggle in Community > Settings.
+
 ## Problems and ideas
 
 Report bugs or suggest features at

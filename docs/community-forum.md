@@ -202,6 +202,23 @@ publishing), remove them from your repository with `git rm`.
 - [Community AI Moderation](https://www.nuget.org/packages/DigitalWonderlab.CommunityAi):
   optional AI review of forum posts and comments.
 
+## Telemetry
+
+Once a day the forum sends Digital Wonderlab a small anonymous report, so we know how many sites use it, on which versions, and which features matter. It is on by default and easy to turn off.
+
+**Sent:** a random install ID (created on first run, stored in your Umbraco database, not derived from anything about your site); the package, Umbraco and .NET versions; environment type (Production, Staging, Development); hosting type (Umbraco Cloud, Azure App Service or other); database type; whether Comments and the AI add-on are installed and AI moderation is on; and rough counts in bands such as `100-999`: threads, posts and forum members, plus threads and posts created and posts held for moderation in the last 24 hours.
+
+**Never sent:** hostnames, URLs, post or comment content, member names, emails or IP addresses (any HTTPS request carries one; the service does not store it).
+
+**See it:** Community > Settings > Anonymous telemetry > "Show exactly what is sent".
+
+**Turn it off**, any of:
+- the toggle in Community > Settings (covers every Community package on the site);
+- `"Community": { "Telemetry": { "Enabled": false } }` in appsettings;
+- `"DigitalWonderlab": { "Telemetry": { "Enabled": false } }` for every Digital Wonderlab package.
+
+Local development (`ASPNETCORE_ENVIRONMENT=Development`) never sends anything. Data is kept for 13 months.
+
 ## Problems and ideas
 
 Report bugs or suggest features at

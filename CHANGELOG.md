@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.4.0 - anonymous telemetry
+
+- Each installed package (Forum, Comments) now sends Digital Wonderlab one small anonymous report a
+  day, so we can see how many sites use the suite and on which versions. It contains a random
+  install ID (created on first run and stored in your Umbraco database), the package, Umbraco and
+  .NET versions, the environment type, hosting type, database type, which suite packages are
+  installed, whether AI moderation is on, and rough counts in bands such as `100-999` (threads,
+  posts, members, comments, and how many were created or held for moderation in the last day).
+- It never sends hostnames, URLs, post or comment content, member names, emails or IP addresses.
+- On by default. Turn it off in **Community > Settings > Anonymous telemetry**, with
+  `Community:Telemetry:Enabled = false`, or with `DigitalWonderlab:Telemetry:Enabled = false` for
+  every Digital Wonderlab package. Local development (`ASPNETCORE_ENVIRONMENT=Development`) never
+  sends anything. The Settings screen shows exactly what would be sent.
+
 ## 1.3.6 - licence update
 
 - New version of the licence (EULA version 2). It now says plainly that you may install the
