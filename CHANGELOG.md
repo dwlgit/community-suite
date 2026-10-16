@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1 - wording
+
+- The telemetry notice in Community > Settings and the READMEs now say the daily report is sent to us,
+  rather than naming the company. No code change.
+
 ## 1.4.0 - anonymous telemetry
 
 - Each installed package (Forum, Comments) now sends Digital Wonderlab one small anonymous report a

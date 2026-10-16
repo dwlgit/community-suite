@@ -204,7 +204,7 @@ publishing), remove them from your repository with `git rm`.
 
 ## Telemetry
 
-Once a day the forum sends Digital Wonderlab a small anonymous report, so we know how many sites use it, on which versions, and which features matter. It is on by default and easy to turn off.
+Once a day the forum sends us a small anonymous report, so we know how many sites use it, on which versions, and which features matter. It is on by default and easy to turn off.
 
 **Sent:** a random install ID (created on first run, stored in your Umbraco database, not derived from anything about your site); the package, Umbraco and .NET versions; environment type (Production, Staging, Development); hosting type (Umbraco Cloud, Azure App Service or other); database type; whether Comments and the AI add-on are installed and AI moderation is on; and rough counts in bands such as `100-999`: threads, posts and forum members, plus threads and posts created and posts held for moderation in the last 24 hours.
 
